@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>⚛️ Quantum Portfolio Management | AI Dashboard</title>
+    <meta name="description" content="Quantum Reinforcement Learning Portfolio Management Dashboard - AI-Powered Investment Intelligence">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- ═══ Sidebar Navigation ═══ -->
+    <nav class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <div class="logo-icon">⚛️</div>
+                <div class="logo-text">
+                    <span class="logo-title">QuantumRL</span>
+                    <span class="logo-subtitle">Portfolio AI</span>
+                </div>
+            </div>
+        </div>
+        <ul class="nav-menu">
+            <li class="nav-item active" data-section="dashboard">
+                <span class="nav-icon">📊</span>
+                <span class="nav-label">Dashboard</span>
+            </li>
+            <li class="nav-item" data-section="market">
+                <span class="nav-icon">📈</span>
+                <span class="nav-label">Market Data</span>
+            </li>
+            <li class="nav-item" data-section="portfolio">
+                <span class="nav-icon">💼</span>
+                <span class="nav-label">Portfolio</span>
+            </li>
+            <li class="nav-item" data-section="quantum">
+                <span class="nav-icon">🧠</span>
+                <span class="nav-label">Quantum AI</span>
+            </li>
+            <li class="nav-item" data-section="comparison">
+                <span class="nav-icon">⚡</span>
+                <span class="nav-label">Classical vs Quantum</span>
+            </li>
+        </ul>
+        <div class="sidebar-footer">
+            <div class="status-badge">
+                <span class="status-dot"></span>
+                <span>Model Active</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ═══ Main Content ═══ -->
+    <main class="main-content">
+        <!-- ── Header ── -->
+        <header class="top-bar">
+            <div class="top-bar-left">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <h1 class="page-title" id="pageTitle">Dashboard Overview</h1>
+            </div>
+            <div class="top-bar-right">
+                <div class="market-clock">
+                    <span class="clock-label">Market</span>
+                    <span class="clock-status" id="marketStatus">Loading...</span>
+                </div>
+                <button class="btn-refresh" id="btnRefresh" title="Refresh Data">🔄</button>
+            </div>
+        </header>
+
+        <!-- ═══ SECTION: Dashboard ═══ -->
+        <section class="content-section active" id="section-dashboard">
+            <!-- Summary Cards -->
+            <div class="stats-grid">
+                <div class="stat-card gradient-purple">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total Assets</span>
+                        <span class="stat-value" id="totalAssets">25</span>
+                    </div>
+                </div>
+                <div class="stat-card gradient-blue">
+                    <div class="stat-icon">🤖</div>
+                    <div class="stat-info">
+                        <span class="stat-label">AI Model</span>
+                        <span class="stat-value" id="modelStatus">Trained</span>
+                    </div>
+                </div>
+                <div class="stat-card gradient-green">
+                    <div class="stat-icon">⚛️</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Quantum Advantage</span>
+                        <span class="stat-value" id="quantumAdvantage">+12.4%</span>
+                    </div>
+                </div>
+                <div class="stat-card gradient-orange">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-info">
+                        <span class="stat-label">Avg Change</span>
+                        <span class="stat-value" id="avgChange">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="charts-row">
+                <div class="chart-card large">
+                    <div class="card-header">
+                        <h3>Portfolio Performance (Backtest)</h3>
+                        <span class="badge badge-quantum">Live</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="dashPerformanceChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3>Asset Allocation</h3>
+                        <span class="badge badge-info">Optimized</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="dashAllocationChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sector Breakdown -->
+            <div class="charts-row" style="margin-top:1.5rem;">
+                <div class="chart-card">
+                    <div class="card-header">
+                        <h3>Sector Breakdown</h3>
+                        <span class="badge badge-info">6 Sectors</span>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="sectorBreakdownChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card large">
+                    <div class="card-header">
+                        <h3>Coverage by Sector</h3>
+                    </div>
+                    <div class="sector-legend" id="sectorLegend"></div>
+                </div>
+            </div>
+
+            <!-- Architecture Diagram -->
+            <div class="arch-card">
+                <div class="card-header">
+                    <h3>System Architecture</h3>
+                </div>
+                <div class="architecture-flow">
+                    <div class="arch-node node-data">
+                        <div class="arch-icon">📡</div>
+                        <span>Market Data</span>
+                        <small>Yahoo Finance API</small>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-node node-quantum">
+                        <div class="arch-icon">⚛️</div>
+                        <span>Quantum RL Agent</span>
+                        <small>VQC + PennyLane</small>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-node node-engine">
+                        <div class="arch-icon">⚙️</div>
+                        <span>Decision Engine</span>
+                        <small>PyTorch Neural Net</small>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-node node-portfolio">
+                        <div class="arch-icon">💰</div>
+                        <span>Portfolio Allocation</span>
+                        <small>Weight Optimization</small>
+                    </div>
+                    <div class="arch-arrow">→</div>
+                    <div class="arch-node node-eval">
+                        <div class="arch-icon">📊</div>
+                        <span>Performance</span>
+                        <small>Sharpe · Returns</small>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ SECTION: Market Data ═══ -->
+        <section class="content-section" id="section-market">
+            <div class="section-header">
+                <h2>Live Market Data</h2>
+                <p>Real-time stock prices for <strong>25 companies</strong> across 6 sectors — fetched from Yahoo Finance</p>
+            </div>
+
+            <!-- Market Breadth Bar -->
+            <div class="breadth-bar" id="breadthBar">
+                <span class="breadth-label">Market Breadth:</span>
+                <span class="breadth-gainers" id="breadthGainers">↑ -- Gainers</span>
+                <span class="breadth-losers" id="breadthLosers">↓ -- Losers</span>
+                <div class="breadth-track"><div class="breadth-fill" id="breadthFill" style="width:50%"></div></div>
+            </div>
+
+            <!-- Sector Filter Tabs -->
+            <div class="sector-tabs" id="sectorTabs">
+                <button class="sector-tab active" data-sector="All">All <span class="tab-count">25</span></button>
+                <button class="sector-tab" data-sector="Technology" style="--tab-color:#8b5cf6">💻 Technology <span class="tab-count">6</span></button>
+                <button class="sector-tab" data-sector="Finance" style="--tab-color:#3b82f6">🏦 Finance <span class="tab-count">5</span></button>
+                <button class="sector-tab" data-sector="Healthcare" style="--tab-color:#10b981">🏥 Healthcare <span class="tab-count">4</span></button>
+                <button class="sector-tab" data-sector="Energy" style="--tab-color:#f59e0b">⚡ Energy <span class="tab-count">4</span></button>
+                <button class="sector-tab" data-sector="Consumer" style="--tab-color:#ec4899">🛒 Consumer <span class="tab-count">3</span></button>
+                <button class="sector-tab" data-sector="Industrial" style="--tab-color:#06b6d4">🏗️ Industrial <span class="tab-count">3</span></button>
+            </div>
+
+            <!-- Search -->
+            <div class="search-bar-wrapper">
+                <input type="text" class="stock-search" id="stockSearch" placeholder="🔍  Search by ticker or company name...">
+            </div>
+
+            <div class="stocks-grid" id="stocksGrid">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Fetching market data for 25 companies...</p>
+                </div>
+            </div>
+            <div class="chart-card full-width" style="margin-top: 1.5rem;">
+                <div class="card-header">
+                    <h3>Price History (Last 60 Days)</h3>
+                    <span class="badge badge-info" id="chartSectorLabel">All Sectors</span>
+                </div>
+                <div class="chart-container">
+                    <canvas id="priceHistoryChart"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ SECTION: Portfolio ═══ -->
+        <section class="content-section" id="section-portfolio">
+            <div class="section-header">
+                <h2>Portfolio Analysis</h2>
+                <p>Optimized allocation for 25 stocks using Modern Portfolio Theory</p>
+            </div>
+            <div class="portfolio-grid">
+                <div class="portfolio-card">
+                    <div class="card-header">
+                        <h3>Equal Weight Portfolio</h3>
+                        <span class="badge badge-info">Baseline</span>
+                    </div>
+                    <div class="portfolio-metrics" id="equalMetrics">
+                        <div class="metric"><span class="metric-label">Annual Return</span><span class="metric-value">--</span></div>
+                        <div class="metric"><span class="metric-label">Risk (Volatility)</span><span class="metric-value">--</span></div>
+                        <div class="metric"><span class="metric-label">Sharpe Ratio</span><span class="metric-value">--</span></div>
+                    </div>
+                </div>
+                <div class="portfolio-card highlight">
+                    <div class="card-header">
+                        <h3>Optimized Portfolio</h3>
+                        <span class="badge badge-quantum">AI Optimized</span>
+                    </div>
+                    <div class="portfolio-metrics" id="optimizedMetrics">
+                        <div class="metric"><span class="metric-label">Annual Return</span><span class="metric-value">--</span></div>
+                        <div class="metric"><span class="metric-label">Risk (Volatility)</span><span class="metric-value">--</span></div>
+                        <div class="metric"><span class="metric-label">Sharpe Ratio</span><span class="metric-value">--</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sector allocation + Weight chart -->
+            <div class="portfolio-charts-row">
+                <div class="chart-card">
+                    <div class="card-header"><h3>Weight Distribution</h3></div>
+                    <div class="chart-container"><canvas id="weightChart"></canvas></div>
+                </div>
+                <div class="chart-card">
+                    <div class="card-header"><h3>Correlation Matrix</h3></div>
+                    <div class="correlation-grid" id="correlationGrid"></div>
+                </div>
+            </div>
+
+            <!-- Cumulative Returns -->
+            <div class="chart-card full-width" style="margin-top:1.5rem;">
+                <div class="card-header"><h3>Cumulative Returns</h3></div>
+                <div class="chart-container"><canvas id="cumulativeChart"></canvas></div>
+            </div>
+
+            <!-- Stock Weight Table -->
+            <div class="chart-card full-width" style="margin-top:1.5rem;">
+                <div class="card-header">
+                    <h3>All Holdings — Weight Table</h3>
+                    <span class="badge badge-info">25 Stocks</span>
+                </div>
+                <div class="weight-table-wrapper">
+                    <table class="weight-table" id="weightTable">
+                        <thead>
+                            <tr>
+                                <th>Ticker</th>
+                                <th>Sector</th>
+                                <th>Equal Weight</th>
+                                <th>Optimized Weight</th>
+                                <th>Δ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="weightTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══ SECTION: Quantum AI ═══ -->
+        <section class="content-section" id="section-quantum">
+            <div class="section-header">
+                <h2>Quantum Reinforcement Learning</h2>
+                <p>Hybrid Variational Quantum Circuit (VQC) powered by PennyLane + PyTorch</p>
+            </div>
+
+            <!-- Quantum Circuit Info -->
+            <div class="quantum-info-grid">
+                <div class="quantum-card">
+                    <div class="q-icon">🔮</div>
+                    <div class="q-label">Qubits</div>
+                    <div class="q-value" id="qQubits">4</div>
+                </div>
+                <div class="quantum-card">
+                    <div class="q-icon">🧬</div>
+                    <div class="q-label">Layers</div>
+                    <div class="q-value" id="qLayers">2</div>
+                </div>
+                <div class="quantum-card">
+                    <div class="q-icon">⚡</div>
+                    <div class="q-label">Gates</div>
+                    <div class="q-value" id="qGates">24</div>
+                </div>
+                <div class="quantum-card">
+                    <div class="q-icon">🎯</div>
+                    <div class="q-label">Parameters</div>
+                    <div class="q-value" id="qParams">24</div>
+                </div>
+                <div class="quantum-card">
+                    <div class="q-icon">🔗</div>
+                    <div class="q-label">Entanglement</div>
+                    <div class="q-value" id="qEntangle">Full</div>
+                </div>
+            </div>
+
+            <!-- Quantum Circuit Visualization -->
+            <div class="chart-card full-width">
+                <div class="card-header">
+                    <h3>Variational Quantum Circuit (VQC)</h3>
+                    <span class="badge badge-quantum">PennyLane</span>
+                </div>
+                <div class="circuit-diagram">
+                    <div class="circuit-wire">
+                        <span class="wire-label">q₀ |0⟩</span>
+                        <div class="gate gate-rx">Rₓ</div>
+                        <div class="gate gate-ry">Rᵧ</div>
+                        <div class="gate gate-cnot">●</div>
+                        <div class="wire-line"></div>
+                        <div class="gate gate-rx">Rₓ</div>
+                        <div class="gate gate-ry">Rᵧ</div>
+                        <div class="gate gate-measure">M</div>
+                        <span class="wire-output">⟨Z⟩</span>
+                    </div>
+                    <div class="circuit-wire">
+                        <span class="wire-label">q₁ |0⟩</span>
+                        <div class="gate gate-rx">Rₓ</div>
+                        <div class="gate gate-ry">Rᵧ</div>
+                        <div class="gate gate-cnot-target">⊕</div>
+                        <div class="gate gate-cnot">●</div>
+                        <div class="gate gate-rx">Rₓ</div>
+                        <div class="gate gate-ry">Rᵧ</div>
+                        <div class="gate gate-measure">M</div>
+                        <span class="wire-output">⟨Z⟩</span>
+                    </div>
+                    <div class="circuit-wire">
+                        <span class="wire-label">q₂ |0⟩</span>
+                        <div class="gate gate-rx">Rₓ</div>
+                        <div class="gate gate-ry">Rᵧ</div>
+                        <div class="wire-line"></div>
+                        <div class="gate gate-cnot-target">⊕</div>
+                        <div class="gate gate-rx">Rₓ</div>
+                        <div class="gate gate-ry">Rᵧ</div>
+                        <div class="gate gate-measure">M</div>
+                        <span class="wire-output">⟨Z⟩</span>
+                    </div>
+                    <div class="circuit-wire">
+                        <span class="wire-label">q₃ |0⟩</span>
+                        <div class="gate gate-rx">Rₓ</div>
+                        <div class="gate gate-ry">Rᵧ</div>
+                        <div class="wire-line"></div>
+                        <div class="wire-line"></div>
+                        <div class="gate gate-rx">Rₓ</div>
+                        <div class="gate gate-ry">Rᵧ</div>
+                        <div class="gate gate-measure">M</div>
+                        <span class="wire-output">⟨Z⟩</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chart-card full-width" style="margin-top:1.5rem;">
+                <div class="card-header"><h3>Training Progress (Rewards per Epoch)</h3></div>
+                <div class="chart-container"><canvas id="trainingChart"></canvas></div>
+            </div>
+        </section>
+
+        <!-- ═══ SECTION: Comparison ═══ -->
+        <section class="content-section" id="section-comparison">
+            <div class="section-header">
+                <h2>Classical vs Quantum Performance</h2>
+                <p>Side-by-side comparison of PPO (Classical) and VQC (Quantum) agents</p>
+            </div>
+            
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table" id="comparisonTable">
+                    <thead>
+                        <tr>
+                            <th>Metric</th>
+                            <th class="classical-col">🤖 Classical (PPO)</th>
+                            <th class="quantum-col">⚛️ Quantum (VQC)</th>
+                            <th>Winner</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="chart-card full-width" style="margin-top:1.5rem;">
+                <div class="card-header">
+                    <h3>Backtest: Portfolio Value Over Time</h3>
+                </div>
+                <div class="chart-container">
+                    <canvas id="backtestChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
